@@ -8,7 +8,24 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
-    private String address;
+    private int imgEdit;
+    private int imgDelete;
+
+    public int getImgEdit() {
+        return imgEdit;
+    }
+
+    public void setImgEdit(int imgEdit) {
+        this.imgEdit = imgEdit;
+    }
+
+    public int getImgDelete() {
+        return imgDelete;
+    }
+
+    public void setImgDelete(int imgDelete) {
+        this.imgDelete = imgDelete;
+    }
 
     public int getId() {
         return id;
@@ -21,9 +38,10 @@ public class User {
     public User() {
     }
 
-    public User(String name, String address) {
+    public User(String name, int imgEdit, int imgDelete) {
         this.name = name;
-        this.address = address;
+        this.imgEdit = imgEdit;
+        this.imgDelete = imgDelete;
     }
 
     public String getName() {
@@ -34,11 +52,4 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

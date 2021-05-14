@@ -3,6 +3,7 @@ package com.example.LeVanTai_18093421_Roomdatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,12 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolderView> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolderView>{
     private List<User> list;
+    private DeleteAndUpdate deleteAndUpdate;
+    public MyAdapter (DeleteAndUpdate deleteAndUpdate)
+    {
+        this.deleteAndUpdate = deleteAndUpdate;
+    }
     public void setData(List<User> list)
     {
         this.list = list;
         notifyDataSetChanged();
+    }
+
+   public interface DeleteAndUpdate
+    {
+        public void DeleteUser(User user);
+        public void UpdateUser(User user);
     }
     @NonNull
     @Override
@@ -28,9 +40,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolderView> {
     @Override
     public void onBindViewHolder(@NonNull MyHolderView holder, int position) {
 
-        User user = list.get(position);
-        holder.txtUserName.setText(user.getName());
-        holder.txtAddress.setText(user.getAddress());
+        final User user = list.get(position);
+        holder.txtName.setText(user.getName());
+        holder.imageEdit.setImageResource(user.getImgEdit());
+        holder.imageDelete.setImageResource(user.getImgDelete());
+        holder.imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAndUpdate.DeleteUser(user);
+            }
+        });
+        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAndUpdate.UpdateUser(user);
+            }
+        });
     }
 
     @Override
@@ -41,11 +66,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolderView> {
     }
 
     public class MyHolderView extends RecyclerView.ViewHolder {
-        TextView txtUserName,txtAddress;
+        TextView txtName;
+        ImageView imageEdit, imageDelete;
         public MyHolderView(@NonNull View itemView) {
             super(itemView);
-            txtUserName = itemView.findViewById(R.id.txtUserName);
-            txtAddress = itemView.findViewById(R.id.txtAddress);
+            txtName = itemView.findViewById(R.id.txtName);
+            imageEdit = itemView.findViewById(R.id.imageEdit);
+            imageDelete = itemView.findViewById(R.id.imageDelete);
         }
     }
 }
